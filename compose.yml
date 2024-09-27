@@ -1,0 +1,37 @@
+version: "3"
+
+x-app: &app
+  build:
+    context: .
+    dockerfile: docker/local/Dockerfile
+  image: blog-on-rails:1.0.0
+  tmpfs:
+    - /app/tmp
+    - /app/tmp/pids
+
+x-backend: &backend
+  <<: *app
+  stdin_open: true
+  tty: true
+  volumes:
+    - ./app:/app:cached
+    - rails_cache:/app/tmp/cache
+    - bundle:/usr/local/bundle
+  environment:
+    RAILS_ENV: ${RAILS_ENV:-development}
+    BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
+    XDG_DATA_HOME: /app/tmp/cache
+    IRB_HISTFILE: /usr/local/hist/.irb_history
+    HISTFILE: /app/log/.bash_history
+    EDITOR: vi
+
+services:
+  web:
+    <<: *backend
+    command: bin/dev
+    ports:
+      - "${RAILS_PORT:-3010}:3000"
+
+volumes:
+  bundle:
+  rails_cache:
