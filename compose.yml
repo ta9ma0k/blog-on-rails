@@ -24,6 +24,10 @@ x-backend: &backend
     IRB_HISTFILE: /usr/local/hist/.irb_history
     HISTFILE: /app/log/.bash_history
     EDITOR: vi
+    DB_HOST: mysql
+    DB_PORT: 3306
+    DB_USERNAME: ${DB_USER:-root}
+    DB_PASSWORD: ${DB_PASSWORD:-password}
 
 services:
   web:
@@ -31,7 +35,36 @@ services:
     command: bin/dev
     ports:
       - "${RAILS_PORT:-3010}:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-password}
+    restart: always
+    ports:
+      - 3306
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-uroot",
+          "-p${MYSQL_ROOT_PASSWORD}",
+        ]
+      interval: 5s
+      retries: 5
+      start_period: 5s
 
 volumes:
   bundle:
+  mysql:
   rails_cache:

@@ -21,18 +21,6 @@ RUN \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   && truncate -s 0 /var/log/*log
 
-# Download mysql-client
-# RUN \
-#   --mount=type=cache,target=/var/cache/apt,sharing=locked \
-#   --mount=type=cache,target=/var/lib/apt,sharing=locked \
-#   --mount=type=tmpfs,target=/var/log \
-#   apt-get update -qq && \
-#   apt-get install -yq --no-install-recommends \
-#   default-mysql-client \
-#   && apt-get clean \
-#   && rm -rf /var/cache/apt/archives/* \
-#   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-#   && truncate -s 0 /var/log/*log
 
 # Configure bundler
 ENV \
