@@ -1,0 +1,7 @@
+= turbo_frame_tag post do
+  .border-bottom.mb-2
+    .mx-4
+      %p.fs-5.fw-light
+        = post.body
+      %p.fs-6.fw-lighter
+        = post.posted_at.strftime("%Y/%m/%d %H:%M:%S")
