@@ -1,12 +1,14 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index]
+
   def index
     @posts = Post.recently
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.post(post_params[:body])
 
-    render :new, status: :unprocessable_entity unless @post.save
+    render :new, status: :unprocessable_entity if @post.nil?
   end
 
   private

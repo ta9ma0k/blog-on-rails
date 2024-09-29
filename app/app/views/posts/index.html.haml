@@ -1,8 +1,9 @@
 .container.py-5.px-4
   .justify-content-center.row
     .col-8
-      .mb-3
-        = render "form", post: Post.new
+      - if user_signed_in?
+        .mb-3
+          = render "form", post: Post.new
 
       = turbo_frame_tag :posts do
         = render @posts

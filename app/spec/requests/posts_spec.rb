@@ -14,26 +14,37 @@ RSpec.describe "Posts", type: :request do
 
   describe "POST /create" do
     subject(:request) { post posts_path, params: }
+
     context 'bodyが140字以内でリクエストした場合' do
+      include_examples :sign_in
       let(:params) { { post: { body: 'hi' } } }
       it '投稿が作成されること' do
-        expect { request }.to change(Post, :count).by(1)
+        expect { request }.to change { current_user.posts.count }.by(1)
       end
     end
     context 'bodyが140字を超える場合' do
+      include_examples :sign_in
       let(:params) { { post: { body: '*' * 141 } } }
       it '投稿が作成されないこと' do
         expect { request }.not_to change(Post, :count)
       end
     end
     context 'bodyが0字を超える場合' do
+      include_examples :sign_in
       let(:params) { { post: { body: '' } } }
       it '投稿が作成されないこと' do
         expect { request }.not_to change(Post, :count)
       end
     end
     context 'bodyがリクエストボディにない場合' do
+      include_examples :sign_in
       let(:params) { { post: {} } }
+      it '投稿が作成されないこと' do
+        expect { request }.not_to change(Post, :count)
+      end
+    end
+    context '未認証状態の場合' do
+      let(:params) { { post: { body: 'hi' } } }
       it '投稿が作成されないこと' do
         expect { request }.not_to change(Post, :count)
       end
