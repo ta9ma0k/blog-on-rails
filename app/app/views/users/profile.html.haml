@@ -1,0 +1,9 @@
+.container.py-5.px-4
+  .justify-content-center.row
+    .col-8
+      %h1.fs-2
+        = @user.name
+      %p.fs-4
+        = @user.profile
+      %p
+        = link_to @user.blog_url
