@@ -1,0 +1,8 @@
+%h2 ログイン
+= bootstrap_form_with(model: @user, url: session_path(resource_name), local: true) do |f|
+  .field
+    = f.text_field :name, autofocus: true, autocomplete: "username", label: "ユーザ名"
+  .field
+    = f.password_field :password, autocomplete: "current-password", label: "パスワード"
+  .actions
+    = f.submit "ログイン"

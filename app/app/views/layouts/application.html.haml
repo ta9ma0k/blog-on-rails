@@ -15,4 +15,15 @@
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
   %body
-    = yield
+    .navbar
+      - if user_signed_in?
+        = link_to "ログアウト", destroy_user_session_path, method: :delete, data: { turbo_method: :delete }
+      - else
+        = link_to '登録', new_user_registration_path
+        = link_to 'ログイン', new_user_session_path
+    .container
+      = yield
+    .notice
+      = notice
+    .alert
+      = alert
