@@ -9,5 +9,7 @@
     = f.password_field :password, autocomplete: "new-password", label: "パスワード"
   .field
     = f.password_field :password_confirmation, autocomplete: "new-password", label: "パスワード確認"
+    = f.text_area :profile, maxLength: 200, size: "50x4", label: "プロフィール"
+    = f.text_field :blog_url, label: "ブログURL"
   .actions
     = f.submit "登録"
