@@ -1,0 +1,6 @@
+- if current_user.follow?(user)
+  = 'followed'
+- else
+  = form_with(url: followees_path) do |f|
+    = f.hidden_field :username, value: user.name
+    = f.submit 'フォロー'
