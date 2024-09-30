@@ -2,7 +2,10 @@
   .border-bottom.mb-2
     .mx-4
       %p.fs-6.fw-lighter
-        = link_to post.user.name, profile_path(post.user.name), data: { turbo: false }
+        %div
+          = link_to post.user.name, profile_path(post.user.name), data: { turbo: false }
+        - if user_signed_in? && !current_user.posted?(post)
+          = render "followees/form", user: post.user
       %p.fs-5.fw-light
         = post.body
       %p.fs-6.fw-lighter
