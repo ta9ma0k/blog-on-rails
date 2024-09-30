@@ -17,6 +17,20 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#posted?' do
+    let(:user) { create(:user) }
+    subject { user.posted?(post) }
+
+    context 'ユーザが投稿した投稿の場合' do
+      let(:post) { create(:post, user:) }
+      it { is_expected.to be true }
+    end
+    context 'ユーザが投稿していない投稿の場合' do
+      let(:post) { create(:post) }
+      it { is_expected.to be false }
+    end
+  end
+
   describe '#follow?' do
     let(:user) { create(:user) }
     let(:arg_user) { create(:user) }

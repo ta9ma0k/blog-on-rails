@@ -17,6 +17,8 @@ class User < ApplicationRecord
     new_post if new_post.valid?
   end
 
+  def posted?(post) = post.user == self
+
   def follow?(user) = follows.map(&:followee_id).include?(user.id)
 
   def follow(user)
