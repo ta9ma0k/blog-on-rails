@@ -82,4 +82,56 @@ RSpec.describe User, type: :model do
       it { expect { sut }.not_to change { user.follows.count } }
     end
   end
+
+  describe '#liked?' do
+    let(:user) { create(:user) }
+    let(:post) { create(:post) }
+
+    subject { user.liked?(post) }
+
+    context 'いいねしている投稿の場合' do
+      before { create(:like, user:, post:) } 
+
+      it { is_expected.to be true }
+    end
+    context 'いいねしていない投稿の場合' do
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#like' do
+    let(:user) { create(:user) }
+    let(:post) { create(:post) }
+
+    subject(:sut) { user.like(post) }
+
+    context 'いいねしている投稿の場合' do
+      before { create(:like, user:, post:) } 
+
+      it { is_expected.to be false }
+      it { expect { sut }.not_to change { user.likes.count } }
+    end
+    context 'いいねしていない投稿の場合' do
+      it { is_expected.to be true }
+      it { expect { sut }.to change { user.likes.count }.by(1) }
+    end
+  end
+
+  describe '#unlike' do
+    let(:user) { create(:user) }
+    let(:post) { create(:post) }
+
+    subject(:sut) { user.unlike(post) }
+
+    context 'いいねしている投稿の場合' do
+      before { create(:like, user:, post:) } 
+
+      it { is_expected.to be true }
+      it { expect { sut }.to change { user.likes.count }.by(-1) }
+    end
+    context 'いいねしていない投稿の場合' do
+      it { is_expected.to be false }
+      it { expect { sut }.not_to change { user.likes.count } }
+    end
+  end
 end

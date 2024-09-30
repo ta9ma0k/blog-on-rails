@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :follows, dependent: :destroy
   has_many :followees, through: :follows
   has_many :followee_posts, through: :followees, source: :posts
+  has_many :likes
 
   validates :name, presence: true, format: { with: /\A[a-zA-Z]{1,20}\z/ }, length: { maximum: 20 }, uniqueness: true
   validates :email, presence: true, format: { with: Devise.email_regexp }, uniqueness: true
@@ -35,5 +36,22 @@ class User < ApplicationRecord
     follow = follows.find_by(followee_id: user.id)
     follow.destroy
     follow.destroyed?
+  end
+
+  def liked?(post) = likes.map(&:post_id).include?(post.id)
+
+  def like(post)
+    return false if liked?(post)
+
+    new_like = likes.create(post:)
+    new_like.valid?
+  end
+
+  def unlike(post)
+    return false unless liked?(post)
+
+    like = likes.find_by(post:)
+    like.destroy
+    like.destroyed?
   end
 end
