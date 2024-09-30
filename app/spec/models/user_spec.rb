@@ -16,4 +16,56 @@ RSpec.describe User, type: :model do
       it { expect { sut }.not_to change { user.posts.count } }
     end
   end
+
+  describe '#follow?' do
+    let(:user) { create(:user) }
+    let(:arg_user) { create(:user) }
+
+    subject { user.follow?(arg_user) }
+
+    context 'フォローしているユーザの場合' do
+      before { create(:follow, user:, followee: arg_user) }
+
+      it { is_expected.to be true }
+    end
+    context 'フォローしていないユーザの場合' do
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#follow' do
+    let(:user) { create(:user) }
+    let(:arg_user) { create(:user) }
+
+    subject(:sut) { user.follow(arg_user) }
+
+    context 'フォローしているユーザの場合' do
+      before { create(:follow, user:, followee: arg_user) }
+
+      it { is_expected.to be false }
+      it { expect { sut }.not_to change { user.follows.count } }
+    end
+    context 'フォローしていないユーザの場合' do
+      it { is_expected.to be true }
+      it { expect { sut }.to change { user.follows.count }.by(1) }
+    end
+  end
+
+  describe '#unfollow' do
+    let(:user) { create(:user) }
+    let(:arg_user) { create(:user) }
+
+    subject(:sut) { user.unfollow(arg_user) }
+
+    context 'フォローしているユーザの場合' do
+      before { create(:follow, user:, followee: arg_user) }
+
+      it { is_expected.to be true }
+      it { expect { sut }.to change { user.follows.count }.by(-1) }
+    end
+    context 'フォローしていないユーザの場合' do
+      it { is_expected.to be false }
+      it { expect { sut }.not_to change { user.follows.count } }
+    end
+  end
 end
