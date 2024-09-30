@@ -8,6 +8,9 @@
           = render "followees/form", user: post.user
       %p.fs-5.fw-light
         = post.body
+        .fs-6
+          = post.likes.size
+          いいね
         - if user_signed_in? && !current_user.posted?(post)
           = render "likes/form", post:
       %p.fs-6.fw-lighter

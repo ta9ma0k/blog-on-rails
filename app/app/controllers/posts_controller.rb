@@ -5,13 +5,13 @@ class PostsController < ApplicationController
     filter = params[:filter]
 
     unless user_signed_in?
-      @posts = Post.preload(:user).recently
+      @posts = Post.preload(:likes, :user).recently
     else
       @posts = case filter
                when 'follow' then
-                 current_user.followee_posts.recently
+                 current_user.followee_posts.preload(:likes, :user).recently
                else
-                 Post.preload(:user).recently
+                 Post.preload(:likes, :user).recently
                end
     end
   end
