@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_30_011927) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_30_115853) do
   create_table "follows", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "followee_id", null: false
@@ -19,6 +19,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_30_011927) do
     t.index ["followee_id"], name: "index_follows_on_followee_id"
     t.index ["user_id", "followee_id"], name: "index_follows_on_user_id_and_followee_id", unique: true
     t.index ["user_id"], name: "index_follows_on_user_id"
+  end
+
+  create_table "likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_likes_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -43,5 +53,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_30_011927) do
 
   add_foreign_key "follows", "users"
   add_foreign_key "follows", "users", column: "followee_id"
+  add_foreign_key "likes", "posts"
+  add_foreign_key "likes", "users"
   add_foreign_key "posts", "users"
 end
