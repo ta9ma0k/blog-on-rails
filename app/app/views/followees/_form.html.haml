@@ -1,6 +1,7 @@
 - if current_user.follow?(user)
-  = 'followed'
+  .btn.btn-info.disabled
+    = 'フォロー'
 - else
   = form_with(url: followees_path) do |f|
     = f.hidden_field :username, value: user.name
-    = f.submit 'フォロー'
+    = f.submit 'フォロー', class: "btn btn-info"
