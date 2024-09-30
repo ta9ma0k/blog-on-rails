@@ -6,4 +6,6 @@
           = render "form", post: Post.new
 
       = turbo_frame_tag :posts do
+        - if user_signed_in?
+          = render "tab"
         = render @posts

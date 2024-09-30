@@ -4,30 +4,42 @@ RSpec.describe "Posts", type: :request do
   describe "GET /index" do
     before { create_list(:post, 3) }
 
-    it '投稿された順に投稿が表示されること' do
-      get root_path
-      expect(response).to have_http_status(:success)
-      posts = controller.instance_variable_get('@posts')
-      expect(posts).to eq Post.recently
-    end
-  end
-
-  describe "GET /follow-posts" do
-    include_examples :sign_in
-
-    before do
-      followee = create(:user)
-      create(:follow, user: current_user, followee:)
-      create_list(:post, 3, user: followee)
-
-      create(:post)
+    context '認証していない場合' do
+      it '投稿された順に投稿が表示されること' do
+        get root_path
+        expect(response).to have_http_status(:success)
+        posts = controller.instance_variable_get('@posts')
+        expect(posts).to eq Post.recently
+      end
     end
 
-    it 'フォローしているユーザの投稿のみ表示されること' do
-      get follow_posts_path
-      expect(response).to have_http_status(:success)
-      posts = controller.instance_variable_get('@posts')
-      expect(posts).to eq current_user.followee_posts.recently
+    context '認証している場合' do
+      include_examples :sign_in
+
+      before do
+        followee = create(:user)
+        create(:follow, user: current_user, followee:)
+        create_list(:post, 3, user: followee)
+
+        create(:post)
+      end
+
+      context 'filterが指定されない場合' do
+        it '投稿された順に投稿が表示されること' do
+          get root_path
+          expect(response).to have_http_status(:success)
+          posts = controller.instance_variable_get('@posts')
+          expect(posts).to eq Post.recently
+        end
+      end
+      context 'filter=followが指定された場合' do
+        it 'フォローしているユーザの投稿のみ表示されること' do
+          get root_path(filter: 'follow')
+          expect(response).to have_http_status(:success)
+          posts = controller.instance_variable_get('@posts')
+          expect(posts).to eq current_user.followee_posts.recently
+        end
+      end
     end
   end
 
