@@ -5,6 +5,10 @@ class PostsController < ApplicationController
     @posts = Post.preload(:user).recently
   end
 
+  def followees
+    @posts = current_user.followee_posts.recently
+  end
+
   def create
     @post = current_user.post(post_params[:body])
 

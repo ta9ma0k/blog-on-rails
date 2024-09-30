@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "posts#index"
+  get "follow-posts", to: "posts#followees", as: "follow_posts"
 
   scope :users do
     get ":username", to: "users#profile", as: 'profile'

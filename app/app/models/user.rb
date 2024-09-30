@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :posts
   has_many :follows, dependent: :destroy
   has_many :followees, through: :follows
+  has_many :followee_posts, through: :followees, source: :posts
 
   validates :name, presence: true, format: { with: /\A[a-zA-Z]{1,20}\z/ }, length: { maximum: 20 }, uniqueness: true
   validates :email, presence: true, format: { with: Devise.email_regexp }, uniqueness: true

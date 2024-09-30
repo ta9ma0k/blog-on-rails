@@ -12,6 +12,25 @@ RSpec.describe "Posts", type: :request do
     end
   end
 
+  describe "GET /follow-posts" do
+    include_examples :sign_in
+
+    before do
+      followee = create(:user)
+      create(:follow, user: current_user, followee:)
+      create_list(:post, 3, user: followee)
+
+      create(:post)
+    end
+
+    it 'フォローしているユーザの投稿のみ表示されること' do
+      get follow_posts_path
+      expect(response).to have_http_status(:success)
+      posts = controller.instance_variable_get('@posts')
+      expect(posts).to eq current_user.followee_posts.recently
+    end
+  end
+
   describe "POST /create" do
     subject(:request) { post posts_path, params: }
 
