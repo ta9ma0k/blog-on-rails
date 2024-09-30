@@ -19,5 +19,7 @@ Rails.application.routes.draw do
     resources :followees, only: %i[create]
   end
 
-  resources :posts, only: %i[create]
+  resources :posts, only: %i[create] do
+    resources :likes, only: %i[create]
+  end
 end
