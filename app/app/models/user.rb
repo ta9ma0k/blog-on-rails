@@ -3,12 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :validatable
 
-  has_many :posts
-  has_many :follows, dependent: :destroy
+  has_many :posts, dependent: :restrict_with_exception
+  has_many :follows, dependent: :restrict_with_exception
   has_many :followees, through: :follows
   has_many :followee_posts, through: :followees, source: :posts
-  has_many :likes
-  has_many :comments
+  has_many :likes, dependent: :restrict_with_exception
+  has_many :comments, dependent: :restrict_with_exception
 
   validates :name, presence: true, format: { with: /\A[a-zA-Z]{1,20}\z/ }, length: { maximum: 20 }, uniqueness: true
   validates :email, presence: true, format: { with: Devise.email_regexp }, uniqueness: true
