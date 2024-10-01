@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
       redirect_to redirect_path
     else
       redirect_to redirect_path, alert: "コメントできませんでした"
- 
+
     end
   end
 

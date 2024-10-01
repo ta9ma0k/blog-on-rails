@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations:  'users/registrations'
+    sessions: "users/sessions",
+    registrations:  "users/registrations"
   }, skip: [:registrations]
   devise_scope :user do
-    get 'sign_up', to: 'users/registrations#new', as: :new_user
-    post 'users', to: 'users/registrations#create', as: :users
+    get "sign_up", to: "users/registrations#new", as: :new_user
+    post "users", to: "users/registrations#create", as: :users
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   root "posts#index"
 
   scope :users do
-    get ":username", to: "users#profile", as: 'profile'
+    get ":username", to: "users#profile", as: "profile"
 
     resources :followees, only: %i[create]
   end

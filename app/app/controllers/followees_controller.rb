@@ -3,7 +3,7 @@ class FolloweesController < ApplicationController
 
   def create
     user = User.find_by(name: followee_params[:username])
-    
+
     if user.present? && current_user.follow(user)
       redirect_to root_path
     else
@@ -12,6 +12,6 @@ class FolloweesController < ApplicationController
   end
 
   private
-  
+
   def followee_params = params.permit(:username)
 end

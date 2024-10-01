@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   describe '#post' do
     let(:user) { create(:user) }
     subject(:sut) { user.post(body, thumbnail) }
-    
+
     context '140文字以内の投稿の場合' do
       let(:body) { 'post body' }
       let(:thumbnail) { nil }
@@ -102,7 +102,7 @@ RSpec.describe User, type: :model do
     subject { user.liked?(post) }
 
     context 'いいねしている投稿の場合' do
-      before { create(:like, user:, post:) } 
+      before { create(:like, user:, post:) }
 
       it { is_expected.to be true }
     end
@@ -118,7 +118,7 @@ RSpec.describe User, type: :model do
     subject(:sut) { user.like(post) }
 
     context 'いいねしている投稿の場合' do
-      before { create(:like, user:, post:) } 
+      before { create(:like, user:, post:) }
 
       it { is_expected.to be false }
       it { expect { sut }.not_to change { user.likes.count } }
@@ -136,7 +136,7 @@ RSpec.describe User, type: :model do
     subject(:sut) { user.unlike(post) }
 
     context 'いいねしている投稿の場合' do
-      before { create(:like, user:, post:) } 
+      before { create(:like, user:, post:) }
 
       it { is_expected.to be true }
       it { expect { sut }.to change { user.likes.count }.by(-1) }

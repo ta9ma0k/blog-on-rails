@@ -1,8 +1,8 @@
 Rails.logger = Logger.new($stdout)
 
 namespace :yesterday_ranking_notice do
-  desc '実行日の前日のいいね数TOP10の投稿を通知する'
-  task :exec => :environment do |_, args|
+  desc "実行日の前日のいいね数TOP10の投稿を通知する"
+  task exec: :environment do |_, args|
     date = Time.zone.now.yesterday
 
     Rails.logger.info "#{date.strftime('%F')}のランキングを集計します"
@@ -19,7 +19,7 @@ namespace :yesterday_ranking_notice do
     User.find_each do |user|
       NotificationMailer.ranking(user, posts, date).deliver_later
     end
-    
+
     Rails.logger.info "#{User.count}件のメールを送信しました"
   end
 end

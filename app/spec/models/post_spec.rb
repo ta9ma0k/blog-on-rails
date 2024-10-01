@@ -16,7 +16,7 @@ RSpec.describe Post, type: :model do
   describe '.likes_ranking' do
     let(:date) { Date.new(2024, 10, 1) }
     let(:limit) { 3 }
-    let(:posts) { create_list(:post, 6, created_at: date.prev_month)}
+    let(:posts) { create_list(:post, 6, created_at: date.prev_month) }
     subject { described_class.likes_ranking(date, limit) }
 
     before do

@@ -2,11 +2,11 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[index]
 
   def index
-    rel = if user_signed_in? && params[:filter] == 'follow'
+    rel = if user_signed_in? && params[:filter] == "follow"
             current_user.followee_posts
-          else
+    else
             Post
-          end
+    end
     @posts = rel.preload(:user, :thumbnail_attachment, likes: :user, comments: :user).recently
   end
 

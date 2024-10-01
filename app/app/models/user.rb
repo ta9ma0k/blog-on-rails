@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validates :name, presence: true, format: { with: /\A[a-zA-Z]{1,20}\z/ }, length: { maximum: 20 }, uniqueness: true
   validates :email, presence: true, format: { with: Devise.email_regexp }, uniqueness: true
   validates :profile, length: { maximum: 200 }
-  validates :blog_url, format: /\A#{URI::regexp(%w(http https))}\z/, allow_blank: true
+  validates :blog_url, format: /\A#{URI.regexp(%w[http https])}\z/, allow_blank: true
 
   def post(body, thumbnail = nil)
     new_post = posts.create(body:, thumbnail:)
