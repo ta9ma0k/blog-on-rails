@@ -19,3 +19,7 @@
         = post.posted_at.strftime("%Y/%m/%d %H:%M:%S")
       - if user_signed_in?
         = render "comments/form", post:
+      - post.comments.each do |comment|
+        %p
+          = comment.body
+          = comment.user_name

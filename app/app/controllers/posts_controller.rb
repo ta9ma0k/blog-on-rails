@@ -2,11 +2,12 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[index]
 
   def index
-    if user_signed_in? && params[:filter] == 'follow'
-      @posts = current_user.followee_posts.preload(:user, likes: :user).recently
-    else
-      @posts = Post.preload(:user, likes: :user).recently
-    end
+    rel = if user_signed_in? && params[:filter] == 'follow'
+            current_user.followee_posts
+          else
+            Post
+          end
+    @posts = rel.preload(:user, likes: :user, comments: :user).recently
   end
 
   def create
