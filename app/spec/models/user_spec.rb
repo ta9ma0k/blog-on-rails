@@ -3,15 +3,27 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe '#post' do
     let(:user) { create(:user) }
-    subject(:sut) { user.post(body) }
+    subject(:sut) { user.post(body, thumbnail) }
     
     context '140文字以内の投稿の場合' do
       let(:body) { 'post body' }
+      let(:thumbnail) { nil }
       it { is_expected.not_to be_nil }
       it { expect { sut }.to change { user.posts.count }.by(1) }
     end
+    context '画像を含む投稿の場合' do
+      let(:body) { 'post body' }
+      let(:thumbnail) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test_image.png'), 'image/png') }
+      it { is_expected.not_to be_nil }
+      it 'サムネイル画像付きの投稿が作成されること' do
+        expect { sut }.to change { user.posts.count }.by(1)
+        post = user.posts.last
+        expect(post.thumbnail).to be_attached
+      end
+    end
     context '140文字以上の投稿の場合' do
       let(:body) { 'x' * 141 }
+      let(:thumbnail) { nil }
       it { is_expected.to be_nil }
       it { expect { sut }.not_to change { user.posts.count } }
     end

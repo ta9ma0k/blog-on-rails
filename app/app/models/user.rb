@@ -15,8 +15,8 @@ class User < ApplicationRecord
   validates :profile, length: { maximum: 200 }
   validates :blog_url, format: /\A#{URI::regexp(%w(http https))}\z/
 
-  def post(body)
-    new_post = posts.create(body:)
+  def post(body, thumbnail = nil)
+    new_post = posts.create(body:, thumbnail:)
     new_post if new_post.valid?
   end
 
