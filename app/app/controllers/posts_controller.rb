@@ -7,16 +7,16 @@ class PostsController < ApplicationController
           else
             Post
           end
-    @posts = rel.preload(:user, likes: :user, comments: :user).recently
+    @posts = rel.preload(:user, :thumbnail_attachment, likes: :user, comments: :user).recently
   end
 
   def create
-    @post = current_user.post(post_params[:body])
+    @post = current_user.post(post_params[:body], post_params[:thumbnail])
 
     render :new, status: :unprocessable_entity if @post.nil?
   end
 
   private
 
-  def post_params = params.require(:post).permit(:body)
+  def post_params = params.require(:post).permit(:body, :thumbnail)
 end

@@ -1,4 +1,5 @@
 = turbo_frame_tag post do
   = bootstrap_form_with(model: post) do |f|
-    = f.text_area :body, maxLength: 140, size: "50x3", label: "投稿する"
+    = f.file_field :thumbnail, label: "サムネイル画像"
+    = f.text_area :body, maxLength: 140, size: "50x3", label: "本文"
     = f.submit "投稿"

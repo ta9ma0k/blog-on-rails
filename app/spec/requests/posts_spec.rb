@@ -53,6 +53,22 @@ RSpec.describe "Posts", type: :request do
         expect { request }.to change { current_user.posts.count }.by(1)
       end
     end
+    context 'サムネイル画像を含むリクエストした場合' do
+      include_examples :sign_in
+      let(:params) {
+        {
+          post: {
+            body: 'hi',
+            thumbnail: fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test_image.png'), 'image/png')
+          }
+        }
+      }
+      it 'サムネイル画像付きで投稿が作成されること' do
+        expect { request }.to change { current_user.posts.count }.by(1)
+        post = current_user.posts.last
+        expect(post.thumbnail).to be_attached
+      end
+    end
     context 'bodyが140字を超える場合' do
       include_examples :sign_in
       let(:params) { { post: { body: '*' * 141 } } }
