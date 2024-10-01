@@ -7,6 +7,10 @@
         - if user_signed_in? && !current_user.posted?(post)
           = render "followees/form", user: post.user
       %p.fs-5.fw-light
+        - if post.thumbnail.attached?
+          = image_tag post.thumbnail.variant(:thumb)
+        - else
+          = image_tag "/no-image.png"
         = post.body
         .fs-6
           = post.likes.size
