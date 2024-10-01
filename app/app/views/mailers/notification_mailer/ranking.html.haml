@@ -1,0 +1,23 @@
+:css
+  .title {
+    font-size: 1.5rem;
+  }
+  .ranking {
+    list-style: none;
+    font-size: 1.2rem;
+  }
+  .top {
+    font-size: 1.5rem;
+  }
+  .number {
+    font-weight: bold;
+  }
+
+%h1.title
+  = "#{@date.strftime('%Y/%m/%d')}のいいねTOP10"
+
+%ul.ranking
+  - @posts.each.with_index(1) do |post, i|
+    %li{class: ('top' if i <= 3)}
+      %span.number
+        = "第#{i}位 #{post.body}"
