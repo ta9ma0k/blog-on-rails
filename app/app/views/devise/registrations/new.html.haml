@@ -1,15 +1,17 @@
-%h2 ユーザ登録
-= bootstrap_form_with(model: @user, url: users_path, local: true) do |f|
-  = render "devise/shared/error_messages", resource: resource
-  .field
-    = f.text_field :name, autofocus: true, autocomplete: "username", label: "ユーザ名(ログインID)"
-  .field
-    = f.email_field :email, autocomplete: "email", label: "メールアドレス"
-  .field
-    = f.password_field :password, autocomplete: "new-password", label: "パスワード"
-  .field
-    = f.password_field :password_confirmation, autocomplete: "new-password", label: "パスワード確認"
-    = f.text_area :profile, maxLength: 200, size: "50x4", label: "プロフィール"
-    = f.text_field :blog_url, label: "ブログURL"
-  .actions
-    = f.submit "登録"
+.container.col-5
+  %h2.fs-5 ユーザ登録
+  = bootstrap_form_with(model: @user, url: users_path, local: true) do |f|
+    .field
+      = f.text_field :name, autofocus: true, autocomplete: "username", label: "ユーザ名(ログインID)"
+    .field
+      = f.email_field :email, autocomplete: "email", label: "メールアドレス"
+    .field
+      = f.password_field :password, autocomplete: "new-password", label: "パスワード"
+    .field
+      = f.password_field :password_confirmation, autocomplete: "new-password", label: "パスワード確認"
+    .field
+      = f.text_area :profile, maxLength: 200, size: "50x2", label: "プロフィール"
+    .field
+      = f.text_field :blog_url, label: "ブログURL"
+    .actions.d-grid
+      = f.submit "登録", class: "btn btn-primary"
