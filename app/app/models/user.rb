@@ -58,6 +58,9 @@ class User < ApplicationRecord
 
   def comment(post, body)
     new_comment = comments.create(post:, body:)
-    new_comment.valid?
+    return false if new_comment.invalid?
+
+    NotificationMailer.commented(new_comment).deliver_now
+    true
   end
 end

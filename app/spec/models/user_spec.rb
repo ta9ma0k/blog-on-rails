@@ -146,6 +146,12 @@ RSpec.describe User, type: :model do
 
       it { is_expected.to be true }
       it { expect { sut }.to change { user.comments.count }.by(1) }
+      it 'コメントした投稿のユーザに通知が送信されること' do
+        expect { sut }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        mail = ActionMailer::Base.deliveries.last
+        expect(mail.to.first).to eq post.user.email
+        expect(mail.subject).to eq 'コメントされました！'
+      end
     end
 
     context '255文字以上のコメント本文の場合' do
