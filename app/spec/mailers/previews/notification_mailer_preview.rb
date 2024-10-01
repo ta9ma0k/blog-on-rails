@@ -2,10 +2,10 @@
 class NotificationMailerPreview < ActionMailer::Preview
   def initialize(args)
     super
-    @user = User.build(name: 'postman', email: 'postman@example.com', blog_url: 'http://example.com')
+    @user = User.build(name: 'postman', email: 'postman@example.com')
   end
   def commented
-    comment_user = User.build(name: 'commentman', email: 'commentman@example.com', blog_url: 'http://example.com')
+    comment_user = User.build(name: 'commentman', email: 'commentman@example.com')
     post = Post.build(body: "hello world", user: @user)
     comment = Comment.build(post:, user: comment_user, body: "コメント")
     NotificationMailer.commented(comment)
