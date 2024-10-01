@@ -17,9 +17,11 @@
   %body
     = render "modules/header"
 
-    .mt-3
+    .mt-3.container
+      - if flash.notice.present?
+        .alert.alert-primary
+          = notice
+      - if flash.alert.present?
+        .alert.alert-dark
+          = alert
       = yield
-    .notice
-      = notice
-    .alert
-      = alert
