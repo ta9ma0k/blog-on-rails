@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :followees, through: :follows
   has_many :followee_posts, through: :followees, source: :posts
   has_many :likes
+  has_many :comments
 
   validates :name, presence: true, format: { with: /\A[a-zA-Z]{1,20}\z/ }, length: { maximum: 20 }, uniqueness: true
   validates :email, presence: true, format: { with: Devise.email_regexp }, uniqueness: true
@@ -21,24 +22,24 @@ class User < ApplicationRecord
 
   def posted?(post) = post.user == self
 
-  def follow?(user) = follows.map(&:followee_id).include?(user.id)
+  def follow?(user) = follows.pluck(:followee_id).include?(user.id)
 
-  def follow(user)
-    return false if follow?(user)
+  def follow(followee)
+    return false if follow?(followee)
 
-    new_follow = follows.create(followee_id: user.id)
+    new_follow = follows.create(followee:)
     new_follow.valid?
   end
 
-  def unfollow(user)
-    return false unless follow?(user)
+  def unfollow(followee)
+    return false unless follow?(followee)
 
-    follow = follows.find_by(followee_id: user.id)
+    follow = follows.find_by(followee:)
     follow.destroy
     follow.destroyed?
   end
 
-  def liked?(post) = likes.map(&:post_id).include?(post.id)
+  def liked?(post) = likes.pluck(:post_id).include?(post.id)
 
   def like(post)
     return false if liked?(post)
@@ -53,5 +54,10 @@ class User < ApplicationRecord
     like = likes.find_by(post:)
     like.destroy
     like.destroyed?
+  end
+
+  def comment(post, body)
+    new_comment = comments.create(post:, body:)
+    new_comment.valid?
   end
 end

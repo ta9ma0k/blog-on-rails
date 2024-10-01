@@ -134,4 +134,25 @@ RSpec.describe User, type: :model do
       it { expect { sut }.not_to change { user.likes.count } }
     end
   end
+
+  describe '#comment' do
+    let(:user) { create(:user) }
+    let(:post) { create(:post) }
+
+    subject(:sut) { user.comment(post, body) }
+
+    context '255文字以内のコメント本文の場合' do
+      let(:body) { 'a' * 255 }
+
+      it { is_expected.to be true }
+      it { expect { sut }.to change { user.comments.count }.by(1) }
+    end
+
+    context '255文字以上のコメント本文の場合' do
+      let(:body) { 'a' * 256 }
+
+      it { is_expected.to be false }
+      it { expect { sut }.not_to change { user.comments.count } }
+    end
+  end
 end
