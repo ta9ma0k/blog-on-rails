@@ -1,5 +1,7 @@
 = turbo_frame_tag post do
-  = bootstrap_form_with(model: post) do |f|
-    = f.file_field :thumbnail, label: "サムネイル画像"
-    = f.text_area :body, maxLength: 140, size: "50x3", label: "本文"
-    = f.submit "投稿"
+  = form_with(model: post, class: 'd-flex bg-light px-2 py-2 rounded-pill') do |f|
+    %label.btn.btn-outline-dark.rounded-pill
+      file
+      = f.file_field :thumbnail, class: "d-none"
+    = f.text_field :body, maxLength: 140, placeholder: "...", class: "form-control bg-light border-0 me-2"
+    = f.submit "↑", class: "btn btn-dark rounded-circle"
