@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :restrict_with_exception
 
   has_one_attached :thumbnail do |attachable|
-    attachable.variant :thumb, resize_to_limit: [150, 150]
+    attachable.variant :thumb, resize_to_fill: [150, 150, { crop: :centre }]
   end
 
   validates :body, presence: true, length: { maximum: 140 }
