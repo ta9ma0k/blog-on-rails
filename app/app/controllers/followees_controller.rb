@@ -5,9 +5,10 @@ class FolloweesController < ApplicationController
     user = User.find_by(name: followee_params[:username])
 
     if user.present? && current_user.follow(user)
-      redirect_to root_path
+      @followee_posts = user.posts.preload(:user, :thumbnail_attachment, likes: :user, comments: :user)
+      flash.now.notice = "#{user.name}をフォローしました"
     else
-      redirect_to root_path, alert: "フォローできませんでした"
+      flash.now.alert = "フォローできませんでした"
     end
   end
 
