@@ -13,7 +13,11 @@ class PostsController < ApplicationController
   def create
     @post = current_user.post(post_params[:body], post_params[:thumbnail])
 
-    render :new, status: :unprocessable_entity if @post.nil?
+    if @post.present?
+      flash.now.notice = "投稿しました"
+    else
+      flash.now.alert = "投稿できませんでした"
+    end
   end
 
   private
