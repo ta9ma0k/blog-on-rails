@@ -1,6 +1,6 @@
-- if current_user.liked?(post)
-  .btn.btn-info.disabled
-    = 'いいね'
-- else
+- if user_signed_in? && (!current_user.posted?(post) && !current_user.liked?(post))
   = form_with(url: post_likes_path(post)) do |f|
-    = f.submit 'いいね', class: "btn btn-info"
+    = f.submit "#{post.likes.size} like", class: "btn btn-link m-0 p-0 link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-secondary link-success"
+- else
+  .text-success
+    = "#{post.likes.size} like"
