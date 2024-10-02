@@ -1,3 +1,3 @@
-= bootstrap_form_with(url: post_comments_path(post)) do |f|
-  = f.text_field :body, maxLength: 255, label: "コメントを投稿する"
-  = f.submit "投稿"
+= form_with(url: post_comments_path(post), class: 'd-flex px-1') do |f|
+  = f.text_field :body, maxLength: 255, class: "form-control"
+  = f.submit "+", class: "btn btn-dark btn-sm"
