@@ -2,12 +2,12 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    post = Post.find_by(id: like_params)
+    @post = Post.find_by(id: like_params)
 
-    if post.present? && current_user.like(post)
-      redirect_to redirect_path
+    if @post.present? && current_user.like(@post)
+      flash.now.notice = "いいねしました"
     else
-      redirect_to redirect_path, alert: "いいねできませんでした"
+      flash.now.alert = "いいねできませんでした"
     end
   end
 
