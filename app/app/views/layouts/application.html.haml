@@ -18,9 +18,8 @@
     = render "modules/header"
 
     .mt-3.container
-      - if notice
-        .alert.alert-primary
-          = notice
+      #notice
+        = render "modules/notice"
       #alert
         = render "modules/alert"
       = yield

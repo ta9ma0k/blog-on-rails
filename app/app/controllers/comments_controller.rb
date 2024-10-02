@@ -4,7 +4,11 @@ class CommentsController < ApplicationController
   def create
     @post = Post.find_by(id: comment_params[:post_id])
 
-    flash.now.alert = "コメントできませんでした" unless @post.present? && current_user.comment(@post, comment_params[:body])
+    if @post.present? && current_user.comment(@post, comment_params[:body])
+      flash.now.notice = "コメントしました"
+    else
+      flash.now.alert = "コメントできませんでした"
+    end
   end
 
   private
