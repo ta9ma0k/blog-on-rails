@@ -18,10 +18,9 @@
     = render "modules/header"
 
     .mt-3.container
-      - if flash.notice.present?
+      - if notice
         .alert.alert-primary
           = notice
-      - if flash.alert.present?
-        .alert.alert-dark
-          = alert
+      #alert
+        = render "modules/alert"
       = yield
