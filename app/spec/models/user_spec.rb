@@ -95,11 +95,11 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#liked?' do
+  describe '#like?' do
     let(:user) { create(:user) }
     let(:post) { create(:post) }
 
-    subject { user.liked?(post) }
+    subject { user.like?(post) }
 
     context 'いいねしている投稿の場合' do
       before { create(:like, user:, post:) }
