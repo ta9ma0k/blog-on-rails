@@ -1,7 +1,6 @@
 - if current_user.follow?(user)
-  .btn.btn-info.disabled
-    = 'フォロー'
+  .btn.btn-primary.btn-sm.py-0.disabled フォロイー
 - else
   = form_with(url: followees_path) do |f|
     = f.hidden_field :username, value: user.name
-    = f.submit 'フォロー', class: "btn btn-info"
+    = f.submit 'フォローする', class: "btn btn-outline-primary btn-sm py-0"
