@@ -1,0 +1,10 @@
+.navbar.navbar-expand-lg.bg-body-tertiary.sticky-top
+  .container-fluid.py-2.px-5
+    = link_to "BlogOnRails", root_path, class: "fs-4 fw-bolder"
+
+    - if user_signed_in?
+      = link_to "ログアウト", destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "text-decoration-none text-secondary"
+    - else
+      %div
+        = link_to '登録', new_user_path, class: "text-decoration-none text-secondary mx-2"
+        = link_to 'ログイン', new_user_session_path, class: "text-decoration-none text-secondary"

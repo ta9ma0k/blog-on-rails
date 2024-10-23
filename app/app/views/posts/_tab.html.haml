@@ -1,0 +1,13 @@
+.mb-3
+  %ul.nav.nav-tabs
+    %li.nav-item
+      - if request.fullpath == root_path
+        = link_to 'all', "#", class: "nav-link active"
+      - else
+        = link_to 'all', root_path, class: "nav-link"
+
+    %li.nav-item
+      - if request.fullpath == root_path(filter: 'follow')
+        = link_to 'follow', "#", class: "nav-link active"
+      - else
+        = link_to 'follow', root_path(filter: 'follow'), class: "nav-link"

@@ -15,4 +15,11 @@
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_importmap_tags
   %body
-    = yield
+    = render "modules/header"
+
+    .mt-3.container
+      #notice
+        = render "modules/notice"
+      #alert
+        = render "modules/alert"
+      = yield

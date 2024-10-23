@@ -1,0 +1,31 @@
+= turbo_frame_tag post do
+  .card
+    = image_tag (post.thumbnail.attached? ? post.thumbnail.variant(:thumb) : "/no-image.png"), class: "card-img px-3 pt-3"
+    .card-body.py-1.px-0
+      .px-2
+        .card-subtitle.d-flex
+          = link_to post.user.name, profile_path(post.user.name), class: "text-body fs-5 fw-semibold me-1 link-underline link-underline-opacity-0 link-underline-opacity-75-hover", data: { turbo: false }
+          - if user_signed_in? && !current_user.posted?(post)
+            .me-1
+              = render "followees/form", user: post.user
+        .cart-text= post.body
+        .card-text.fw-lighter= post.posted_at.strftime("%Y/%m/%d %H:%M:%S")
+        = render "likes/form", post:
+      .detail.d-none
+        .px-2.fw-light
+          = post.likes.map(&:user_name).join(',')
+        %div
+          .fs-6.fw-semibold.px-2 comment
+          - post.comments.each do |comment|
+            .border-top.px-2
+              %p.fw-light.lh-sm.m-0
+                = comment.user_name
+              %p.lh-sm.m-0
+                = comment.body
+          - if user_signed_in?
+            .mt-1
+              = render "comments/form", post:
+        .d-grid.mt-1
+          .btn.btn-outline-light.text-secondary.btn-sm{ data: { action: "click->drawer#toggle", card: dom_id(post) } } ↑
+      .d-grid.detail-open-btn
+        .btn.btn-outline-light.text-secondary.btn-sm{ data: { action: "click->drawer#toggle", card: dom_id(post) } } ↓
