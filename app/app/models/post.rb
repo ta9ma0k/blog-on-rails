@@ -15,7 +15,7 @@ class Post < ApplicationRecord
 
   class << self
     def likes_ranking(date, limit = 10)
-      date_range = date.beginning_of_day..date.end_of_day
+      date_range = date.all_day
       select("posts.*, COUNT(likes.id) AS likes_count")
         .left_joins(:likes)
         .where(likes: { created_at: date_range })
