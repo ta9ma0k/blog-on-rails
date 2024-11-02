@@ -26,6 +26,6 @@
             .mt-1
               = render "comments/form", post:
         .d-grid.mt-1
-          .btn.btn-outline-light.text-secondary.btn-sm{ data: { action: "click->drawer#toggle", card: dom_id(post) } } ↑
+          %button.btn.btn-outline-light.text-secondary.btn-sm{ data: { action: "drawer#toggle", card: dom_id(post) } } ↑
       .d-grid.detail-open-btn
-        .btn.btn-outline-light.text-secondary.btn-sm{ data: { action: "click->drawer#toggle", card: dom_id(post) } } ↓
+        %button.btn.btn-outline-light.text-secondary.btn-sm{ data: { action: "drawer#toggle", card: dom_id(post) } } ↓
