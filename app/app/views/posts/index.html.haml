@@ -3,7 +3,7 @@
     .col-sm-12.col-md-4.mb-1
       - if user_signed_in?
         = render "tab"
-      = turbo_frame_tag :posts, data: { controller: "drawer" } do
+      = turbo_frame_tag :posts do
         - @posts.each do |post|
           .mb-1
             = render post
