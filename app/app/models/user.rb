@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  include User::Relationable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :validatable
@@ -16,9 +15,6 @@ class User < ApplicationRecord
   validates :profile, length: { maximum: 200 }
   validates :blog_url, format: /\A#{URI.regexp(%w[http https])}\z/, allow_blank: true
 
-  has_many_resource :follows
-  has_many_resource :likes
-
   def post(body, thumbnail = nil)
     new_post = posts.create(body:, thumbnail:)
     new_post if new_post.valid?
@@ -32,5 +28,41 @@ class User < ApplicationRecord
 
     NotificationMailer.commented(new_comment).deliver_now
     true
+  end
+
+  def like?(post)
+    likes.exists?(post:)
+  end
+
+  def like(post)
+    return false if like?(post)
+
+    like = likes.build(post:)
+    like.save
+  end
+
+  def unlike(post)
+    return false unless like?(post)
+
+    like = likes.find_by(post: post).destroy
+    like.destroyed?
+  end
+
+  def follow?(followee)
+    follows.exists?(followee:)
+  end
+
+  def follow(followee)
+    return false if follow?(followee)
+
+    follow = follows.build(followee:)
+    follow.save
+  end
+
+  def unfollow(followee)
+    return false unless follow?(followee)
+
+    follow = follows.find_by(followee:).destroy
+    follow.destroyed?
   end
 end
